@@ -4,7 +4,7 @@ project(bigIntOpt)
 
 set(CMAKE_CXX_STANDARD 11)
 
-include_directories(${TRYVECTOR_SOURCE_DIR})
+include_directories(${BIGINT_SOURCE_DIR})
 
 add_executable(main main.cpp
                MyVector.cpp
