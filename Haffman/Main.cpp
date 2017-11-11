@@ -99,7 +99,10 @@ void decode(char sin[256], char sout[256])
         for(int j = 0; j < 8; j++)
         {
             char temp = 0;
-            in.get(temp);
+            if(!in.get(temp))
+            {
+                throw std::runtime_error("Can't decode file");
+            }
             unsigned char ttemp = (unsigned char) temp;
             var <<= 4;
             var |= ttemp;
@@ -111,7 +114,10 @@ void decode(char sin[256], char sout[256])
     for(int j = 0; j < 8; j++)
     {
         char temp = 0;
-        in.get(temp);
+        if(!in.get(temp))
+        {
+            throw std::runtime_error("Can't decode file");
+        }
         unsigned char ttemp = (unsigned char) temp;
         am<<=4;
         am |= ttemp;
