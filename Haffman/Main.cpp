@@ -168,6 +168,13 @@ int main(int argc, char* argv[])
     char in[256];
     char out[256];
     cout<<"Programm started"<<endl;
+    if(argc != 3)
+    {
+        cout<<"wrong format\n";
+        cout<<"for encode \n -en input_file_name output_fine_name\n";
+        cout<<"for decode \n -de input_file_name output_fine_name\n";
+        return 0;
+    }
     if(strcmp(argv[1], "-en") == 0)
     {
         strcpy(in, argv[2]);
