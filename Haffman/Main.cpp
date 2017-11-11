@@ -188,13 +188,17 @@ int main(int argc, char* argv[])
         strcpy(in, argv[2]);
         strcpy(out, argv[3]);
         decode(in, out);
-
         cout<<"decoding finished"<<endl;
+    }
+    else
+    {
+        cout<<"wrong args. nothing done";
     }
 /*
     char in[256];
     string temp = "../Haffman/Haffman.in";
     
+
     strcpy(in, temp.c_str());
 
     char out[256];
