@@ -1,11 +1,9 @@
 #include<bits/stdc++.h>
-#include<Haffman.h>
 
 using namespace std;
 
 int main()
 {
-    haffman x;
-    x.strToCode("hitchhiking");
+    system("make \"Main -en ../Haffman/Hamman.in ../Haffman/Haffman.en\"");
     return 0;
 }

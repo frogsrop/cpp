@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/yanis/cpp/Haffman
+CMAKE_SOURCE_DIR = /home/yanis/temp/cpp/Haffman
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/yanis/cpp/Haffman-build
+CMAKE_BINARY_DIR = /home/yanis/temp/cpp/Haffman-build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Main.dir/depend.make
@@ -58,17 +58,17 @@ include CMakeFiles/Main.dir/progress.make
 include CMakeFiles/Main.dir/flags.make
 
 CMakeFiles/Main.dir/Main.cpp.o: CMakeFiles/Main.dir/flags.make
-CMakeFiles/Main.dir/Main.cpp.o: /home/yanis/cpp/Haffman/Main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Main.dir/Main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/Main.cpp.o -c /home/yanis/cpp/Haffman/Main.cpp
+CMakeFiles/Main.dir/Main.cpp.o: /home/yanis/temp/cpp/Haffman/Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/temp/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Main.dir/Main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/Main.cpp.o -c /home/yanis/temp/cpp/Haffman/Main.cpp
 
 CMakeFiles/Main.dir/Main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Main.dir/Main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/cpp/Haffman/Main.cpp > CMakeFiles/Main.dir/Main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/temp/cpp/Haffman/Main.cpp > CMakeFiles/Main.dir/Main.cpp.i
 
 CMakeFiles/Main.dir/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Main.dir/Main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/cpp/Haffman/Main.cpp -o CMakeFiles/Main.dir/Main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/temp/cpp/Haffman/Main.cpp -o CMakeFiles/Main.dir/Main.cpp.s
 
 CMakeFiles/Main.dir/Main.cpp.o.requires:
 
@@ -82,17 +82,17 @@ CMakeFiles/Main.dir/Main.cpp.o.provides.build: CMakeFiles/Main.dir/Main.cpp.o
 
 
 CMakeFiles/Main.dir/Haffman.cpp.o: CMakeFiles/Main.dir/flags.make
-CMakeFiles/Main.dir/Haffman.cpp.o: /home/yanis/cpp/Haffman/Haffman.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Main.dir/Haffman.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/Haffman.cpp.o -c /home/yanis/cpp/Haffman/Haffman.cpp
+CMakeFiles/Main.dir/Haffman.cpp.o: /home/yanis/temp/cpp/Haffman/Haffman.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/temp/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Main.dir/Haffman.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/Haffman.cpp.o -c /home/yanis/temp/cpp/Haffman/Haffman.cpp
 
 CMakeFiles/Main.dir/Haffman.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Main.dir/Haffman.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/cpp/Haffman/Haffman.cpp > CMakeFiles/Main.dir/Haffman.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/temp/cpp/Haffman/Haffman.cpp > CMakeFiles/Main.dir/Haffman.cpp.i
 
 CMakeFiles/Main.dir/Haffman.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Main.dir/Haffman.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/cpp/Haffman/Haffman.cpp -o CMakeFiles/Main.dir/Haffman.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/temp/cpp/Haffman/Haffman.cpp -o CMakeFiles/Main.dir/Haffman.cpp.s
 
 CMakeFiles/Main.dir/Haffman.cpp.o.requires:
 
@@ -106,17 +106,17 @@ CMakeFiles/Main.dir/Haffman.cpp.o.provides.build: CMakeFiles/Main.dir/Haffman.cp
 
 
 CMakeFiles/Main.dir/byte.cpp.o: CMakeFiles/Main.dir/flags.make
-CMakeFiles/Main.dir/byte.cpp.o: /home/yanis/cpp/Haffman/byte.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Main.dir/byte.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/byte.cpp.o -c /home/yanis/cpp/Haffman/byte.cpp
+CMakeFiles/Main.dir/byte.cpp.o: /home/yanis/temp/cpp/Haffman/byte.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/temp/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Main.dir/byte.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/byte.cpp.o -c /home/yanis/temp/cpp/Haffman/byte.cpp
 
 CMakeFiles/Main.dir/byte.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Main.dir/byte.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/cpp/Haffman/byte.cpp > CMakeFiles/Main.dir/byte.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/temp/cpp/Haffman/byte.cpp > CMakeFiles/Main.dir/byte.cpp.i
 
 CMakeFiles/Main.dir/byte.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Main.dir/byte.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/cpp/Haffman/byte.cpp -o CMakeFiles/Main.dir/byte.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/temp/cpp/Haffman/byte.cpp -o CMakeFiles/Main.dir/byte.cpp.s
 
 CMakeFiles/Main.dir/byte.cpp.o.requires:
 
@@ -130,17 +130,17 @@ CMakeFiles/Main.dir/byte.cpp.o.provides.build: CMakeFiles/Main.dir/byte.cpp.o
 
 
 CMakeFiles/Main.dir/node.cpp.o: CMakeFiles/Main.dir/flags.make
-CMakeFiles/Main.dir/node.cpp.o: /home/yanis/cpp/Haffman/node.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Main.dir/node.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/node.cpp.o -c /home/yanis/cpp/Haffman/node.cpp
+CMakeFiles/Main.dir/node.cpp.o: /home/yanis/temp/cpp/Haffman/node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yanis/temp/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Main.dir/node.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Main.dir/node.cpp.o -c /home/yanis/temp/cpp/Haffman/node.cpp
 
 CMakeFiles/Main.dir/node.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Main.dir/node.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/cpp/Haffman/node.cpp > CMakeFiles/Main.dir/node.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yanis/temp/cpp/Haffman/node.cpp > CMakeFiles/Main.dir/node.cpp.i
 
 CMakeFiles/Main.dir/node.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Main.dir/node.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/cpp/Haffman/node.cpp -o CMakeFiles/Main.dir/node.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yanis/temp/cpp/Haffman/node.cpp -o CMakeFiles/Main.dir/node.cpp.s
 
 CMakeFiles/Main.dir/node.cpp.o.requires:
 
@@ -169,7 +169,7 @@ Main: CMakeFiles/Main.dir/byte.cpp.o
 Main: CMakeFiles/Main.dir/node.cpp.o
 Main: CMakeFiles/Main.dir/build.make
 Main: CMakeFiles/Main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yanis/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yanis/temp/cpp/Haffman-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Main.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -189,6 +189,6 @@ CMakeFiles/Main.dir/clean:
 .PHONY : CMakeFiles/Main.dir/clean
 
 CMakeFiles/Main.dir/depend:
-	cd /home/yanis/cpp/Haffman-build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yanis/cpp/Haffman /home/yanis/cpp/Haffman /home/yanis/cpp/Haffman-build /home/yanis/cpp/Haffman-build /home/yanis/cpp/Haffman-build/CMakeFiles/Main.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/yanis/temp/cpp/Haffman-build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yanis/temp/cpp/Haffman /home/yanis/temp/cpp/Haffman /home/yanis/temp/cpp/Haffman-build /home/yanis/temp/cpp/Haffman-build /home/yanis/temp/cpp/Haffman-build/CMakeFiles/Main.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Main.dir/depend
 

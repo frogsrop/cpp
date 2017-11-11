@@ -157,8 +157,28 @@ void decode(char sin[256], char sout[256])
     in.close();
     out.close();
 }
-int main()
+int main(int argc, char* argv[])
 {
+    char in[256];
+    char out[256];
+    cout<<"Programm started"<<endl;
+    if(strcmp(argv[1], "-en") == 0)
+    {
+        strcpy(in, argv[2]);
+        strcpy(out, argv[3]);
+        encode(in, out);
+        cout<<"encoding finished"<<endl;
+    }
+    else
+    if(strcmp(argv[1], "-de") == 0)
+    {
+        strcpy(in, argv[2]);
+        strcpy(out, argv[3]);
+        decode(in, out);
+
+        cout<<"decoding finished"<<endl;
+    }
+/*
     char in[256];
     string temp = "../Haffman/Haffman.in";
     
@@ -177,6 +197,6 @@ int main()
     temp = "../Haffman/Haffman1.out";
     strcpy(out, temp.c_str());
     decode(in, out);
-    
+*/
     return 0;
 }

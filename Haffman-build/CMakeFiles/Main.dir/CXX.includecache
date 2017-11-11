@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/yanis/cpp/Haffman/Haffman.cpp
+/home/yanis/temp/cpp/Haffman/Haffman.cpp
 Haffman.h
 -
 queue
@@ -16,7 +16,7 @@ iostream
 math.h
 -
 
-/home/yanis/cpp/Haffman/Haffman.h
+/home/yanis/temp/cpp/Haffman/Haffman.h
 cstdint
 -
 node.h
@@ -28,17 +28,17 @@ string
 vector
 -
 
-/home/yanis/cpp/Haffman/Main.cpp
+/home/yanis/temp/cpp/Haffman/Main.cpp
 bits/stdc++.h
 -
 Haffman.h
 -
 
-/home/yanis/cpp/Haffman/byte.cpp
+/home/yanis/temp/cpp/Haffman/byte.cpp
 byte.h
 -
 
-/home/yanis/cpp/Haffman/byte.h
+/home/yanis/temp/cpp/Haffman/byte.h
 cstdint
 -
 iostream
@@ -46,11 +46,11 @@ iostream
 vector
 -
 
-/home/yanis/cpp/Haffman/node.cpp
+/home/yanis/temp/cpp/Haffman/node.cpp
 node.h
 -
 
-/home/yanis/cpp/Haffman/node.h
+/home/yanis/temp/cpp/Haffman/node.h
 cstdint
 -
 
