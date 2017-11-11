@@ -5,6 +5,10 @@ using namespace std;
 void encode(char const* sin, char const* sout)
 {
     ifstream in(sin,ios_base::in | ios_base::binary);
+    if(!in)
+    {
+        throw std::runtime_error("no such file");
+    }
     ofstream out(sout,ios_base::out |ios_base::binary);
     haffman h;
     
@@ -88,6 +92,10 @@ bool checker(unsigned long long* x, unsigned long long* y)
 void decode(char const * sin, char const* sout)
 {
     ifstream in(sin, ios_base::binary);
+    if(!in)
+    {
+        throw std::runtime_error("no such file");
+    }
     ofstream out(sout, ios_base::binary);
     haffman h;
     in >> noskipws;
