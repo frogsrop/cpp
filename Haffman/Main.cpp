@@ -92,32 +92,10 @@ void decode(char sin[256], char sout[256])
     haffman h;
     in >> noskipws;
     unsigned long long arrayForCheck[512];
-    try{
-        for(int i = 0; i < 512;i++)
-        {
-            arrayForCheck[i] = 0;
-            unsigned long long var = 0;
-            for(int j = 0; j < 8; j++)
-            {
-                char temp = 0;
-                if(!in.get(temp))
-                {
-                    throw std::runtime_error("Can't decode file");
-                }
-                 unsigned char ttemp = (unsigned char) temp;
-                var <<= 4;
-                var |= ttemp;
-            }
-            h.incSymbol(i, var);
-        }
-    }
-    catch(std::runtime_error& e)
+    for(int i = 0; i < 512;i++)
     {
-        cout<<e.what()<<endl;
-        exit(0);
-    }
-    unsigned long long am = 0;
-    try{
+        arrayForCheck[i] = 0;
+        unsigned long long var = 0;
         for(int j = 0; j < 8; j++)
         {
             char temp = 0;
@@ -125,59 +103,61 @@ void decode(char sin[256], char sout[256])
             {
                 throw std::runtime_error("Can't decode file");
             }
-            unsigned char ttemp = (unsigned char) temp;
-            am<<=4;
-            am |= ttemp;
+             unsigned char ttemp = (unsigned char) temp;
+            var <<= 4;
+            var |= ttemp;
         }
+        h.incSymbol(i, var);
     }
-    catch(std::runtime_error& e)
+    unsigned long long am = 0;
+    for(int j = 0; j < 8; j++)
     {
-        cout<<e.what()<<endl;
-        exit(0);
+        char temp = 0;
+        if(!in.get(temp))
+        {
+            throw std::runtime_error("Can't decode file");
+        }
+        unsigned char ttemp = (unsigned char) temp;
+        am<<=4;
+        am |= ttemp;
     }
+
     h.build();
     char ch = 0;
     unsigned char prev = 0;
     pair<node*, unsigned char> temp = {nullptr, 0};
-    try{
-        while(in.get(ch))
+    while(in.get(ch))
+    {
+        unsigned char chh = (unsigned char) ch;
+
+        for(int i = 0; i < 8; i++)
         {
-            unsigned char chh = (unsigned char) ch;
-
-            for(int i = 0; i < 8; i++)
+            am--;
+            uint_fast8_t cur = (uint_fast8_t) ((chh >> 7) & 1);
+            temp = h.shiftDown(cur, temp.first);
+            if (temp.first == nullptr)
             {
-                am--;
-                uint_fast8_t cur = (uint_fast8_t) ((chh >> 7) & 1);
-                temp = h.shiftDown(cur, temp.first);
-                if (temp.first == nullptr)
+                out.put(temp.second);
+                arrayForCheck[temp.second]++;
+                temp = {nullptr, 0};
+            }
+            chh <<= 1;
+            if (am == 0)
+            {
+                if(!checker(h.getinf(), arrayForCheck))
                 {
-                    out.put(temp.second);
-                    arrayForCheck[temp.second]++;
-                    temp = {nullptr, 0};
-                }
-                chh <<= 1;
-                if (am == 0)
-                {
-                    if(!checker(h.getinf(), arrayForCheck))
-                    {
 
-                        throw std::runtime_error("Can't decode file");
-                    }
-                    in.close();
-                    out.close();
-                    return;
+                    throw std::runtime_error("Can't decode file");
                 }
+                in.close();
+                out.close();
+                return;
             }
         }
-        if(!checker(h.getinf(), arrayForCheck))
-        {
-            throw std::runtime_error("Can't decode file");
-        }
     }
-    catch(std::runtime_error& e)
+    if(!checker(h.getinf(), arrayForCheck))
     {
-        cout<<e.what()<<endl;
-        exit(0);
+        throw std::runtime_error("Can't decode file");
     }
     in.close();
     out.close();
@@ -187,32 +167,39 @@ int main(int argc, char* argv[])
     char in[256];
     char out[256];
     cout<<"Programm started"<<endl;
-    if(argc != 4)
-    {
-        cout<<"wrong format\n";
-        cout<<"for encode \n -en input_file_name output_fine_name\n";
-        cout<<"for decode \n -de input_file_name output_fine_name\n";
-        return 0;
+    try{
+        if(argc != 4)
+        {
+            cout<<"wrong format\n";
+            cout<<"for encode \n -en input_file_name output_fine_name\n";
+            cout<<"for decode \n -de input_file_name output_fine_name\n";
+            return 0;
+        }
+        if(strcmp(argv[1], "-en") == 0)
+        {
+            strcpy(in, argv[2]);
+            strcpy(out, argv[3]);
+            encode(in, out);
+            cout<<"encoding finished"<<endl;
+        }
+        else
+        if(strcmp(argv[1], "-de") == 0)
+        {
+            strcpy(in, argv[2]);
+            strcpy(out, argv[3]);
+            decode(in, out);
+            cout<<"decoding finished"<<endl;
+        }
+        else
+        {
+            cout<<"wrong args. nothing done"<<endl;
+        }
     }
-    if(strcmp(argv[1], "-en") == 0)
+    catch(std::runtime_error& e)
     {
-        strcpy(in, argv[2]);
-        strcpy(out, argv[3]);
-        encode(in, out);
-        cout<<"encoding finished"<<endl;
+        cout<<e.what()<<endl;
     }
-    else
-    if(strcmp(argv[1], "-de") == 0)
-    {
-        strcpy(in, argv[2]);
-        strcpy(out, argv[3]);
-        decode(in, out);
-        cout<<"decoding finished"<<endl;
-    }
-    else
-    {
-        cout<<"wrong args. nothing done"<<endl;
-    }
+
 /*
     char in[256];
     string temp = "../Haffman/Haffman.in";
