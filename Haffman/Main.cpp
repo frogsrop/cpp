@@ -10,6 +10,10 @@ void encode(char const* sin, char const* sout)
         throw std::runtime_error("no such file");
     }
     ofstream out(sout,ios_base::out |ios_base::binary);
+    if(!out)
+    {
+        throw std::runtime_error("can't write");
+    }
     haffman h;
     
     char ch;
@@ -97,6 +101,10 @@ void decode(char const * sin, char const* sout)
         throw std::runtime_error("no such file");
     }
     ofstream out(sout, ios_base::binary);
+    if(!out)
+    {
+        throw std::runtime_error("can't write");
+    }
     haffman h;
     in >> noskipws;
     unsigned long long arrayForCheck[512];
