@@ -2,7 +2,7 @@
 #include<Haffman.h>
 using namespace std;
 
-void encode(char sin[256], char sout[256])
+void encode(char const* sin, char const* sout)
 {
     ifstream in(sin,ios_base::in | ios_base::binary);
     ofstream out(sout,ios_base::out |ios_base::binary);
@@ -85,7 +85,7 @@ bool checker(unsigned long long* x, unsigned long long* y)
     }
     return 1;
 }
-void decode(char sin[256], char sout[256])
+void decode(char const * sin, char const* sout)
 {
     ifstream in(sin, ios_base::binary);
     ofstream out(sout, ios_base::binary);
@@ -164,8 +164,6 @@ void decode(char sin[256], char sout[256])
 }
 int main(int argc, char* argv[])
 {
-    char in[256];
-    char out[256];
     cout<<"Programm started"<<endl;
     try{
         if(argc != 4)
@@ -177,17 +175,13 @@ int main(int argc, char* argv[])
         }
         if(strcmp(argv[1], "-en") == 0)
         {
-            strcpy(in, argv[2]);
-            strcpy(out, argv[3]);
-            encode(in, out);
+            encode(argv[2], argv[3]);
             cout<<"encoding finished"<<endl;
         }
         else
         if(strcmp(argv[1], "-de") == 0)
         {
-            strcpy(in, argv[2]);
-            strcpy(out, argv[3]);
-            decode(in, out);
+            decode(argv[2], argv[3]);
             cout<<"decoding finished"<<endl;
         }
         else
