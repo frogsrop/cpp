@@ -168,7 +168,7 @@ int main(int argc, char* argv[])
     char in[256];
     char out[256];
     cout<<"Programm started"<<endl;
-    if(argc != 3)
+    if(argc != 4)
     {
         cout<<"wrong format\n";
         cout<<"for encode \n -en input_file_name output_fine_name\n";
