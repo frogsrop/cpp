@@ -9,7 +9,6 @@ include_directories(${Haffman_SOURCE_DIR})
 add_executable( Main Main.cpp
                 Haffman.cpp
                 Haffman.h
-                Haffman.in
                 byte.cpp
                 byte.h
                 node.cpp

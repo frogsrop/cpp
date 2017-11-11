@@ -92,9 +92,6 @@
       <Unit filename="/home/yanis/temp/cpp/Haffman/Haffman.h">
          <Option target="Main"/>
       </Unit>
-      <Unit filename="/home/yanis/temp/cpp/Haffman/Haffman.in">
-         <Option target="Main"/>
-      </Unit>
       <Unit filename="/home/yanis/temp/cpp/Haffman/Main.cpp">
          <Option target="Main"/>
       </Unit>
