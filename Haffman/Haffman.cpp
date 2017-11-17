@@ -5,7 +5,6 @@
 
 haffman::~haffman()
 {
-    delete(root);
 }
 
 haffman::haffman()
@@ -23,18 +22,24 @@ byte haffman::getCode(unsigned int x)
 
 void haffman::incSymbol(uint8_t x, unsigned  val)
 {
+    try {
     if(UINT64_MAX - amount[x] < val )
-        std::cout<<'!';
+        throw std::runtime_error("File is too big");
     amount[x] += val;
+    }
+    catch(std::runtime_error e)
+    {
+        e.what();
+    }
 }
 
 struct compare
 {
-    bool operator()(const std::pair<unsigned int, node*>& l, const std::pair<unsigned int, node*>& r)
+    bool operator()(const std::pair<unsigned long long, std::unique_ptr<node>>& l, const std::pair<unsigned long long, std::unique_ptr<node>>& r)
     {
         if(l.first == r.first)
         {
-            return l.second->val > l.second->val;
+            return l.second.get()->val > l.second.get()->val;
         }
         return l.first > r.first;
     }
@@ -42,74 +47,71 @@ struct compare
 
 void haffman::build()
 {
-    std::priority_queue<unsigned int,std::vector<std::pair<unsigned long long, node*>>, compare> q;
+    std::priority_queue<unsigned int,std::vector<std::pair<unsigned long long, std::unique_ptr<node>>>, compare> q;
     for(unsigned int i = 0; i < size; i++)
     {
         if(amount[i]>0)
         {
-            node* temp = new node(i, nullptr, nullptr, nullptr);
-            q.push({amount[i], temp});
+            q.push({amount[i], std::unique_ptr<node>(new node(i))});
         }
     }
     if(q.size() == 1)
     {
-        node* temp = q.top().second;
+        //could not work
+        std::unique_ptr<node> temp(std::move(q.top().second.get()));
         q.pop();
-        root = temp;
-        code[root->val] = byte(0,1);
+        root.reset(temp);
+        code[root.get()->val] = byte(0,1);
     }
+    int w = 1;
     while(q.size() > 1)
     {
-        std::pair<unsigned int, node*> x = q.top();
+        std::cout<<"started\n"<<w<<std::endl;
+        std::pair<unsigned int, std::unique_ptr<node>> x;
+        x.first = q.top().first;
+        x.second.reset(std::move(q.top().second.get()));
         q.pop();
-        std::pair<unsigned int, node*> y = q.top();
+        std::cout<<'!'<<std::endl;
+        std::pair<unsigned int, std::unique_ptr<node>> y;
+        y.first = q.top().first;
+        y.second.reset(std::move(q.top().second.get()));
         q.pop();
-        node* temp = node::unite(x.second, y.second);
-        q.push({x.first + y.first, temp});
+        std::cout<<'?'<<std::endl;
+        std::unique_ptr<node> temp(new node(-1, std::move(x.second), std::move(y.second)));
+        q.push({x.first + y.first, std::move(temp)});
+        std::cout<<"finished"<<std::endl;
+        w++;
     }
     if(q.size())
     {
-        genCodes(q.top().second, byte(0,0));
-        node* temp = q.top().second;
+        genCodes(q.top().second.get(), byte(0,0));
+        std::unique_ptr<node> temp(std::move(q.top().second.get()));
         q.pop();
-        root = temp;
+        root.reset(temp.release());
     }
 }
 
 void haffman::genCodes(node* v, byte b)
 {
-    if(v->l == nullptr && v->r == nullptr)
+    if(v->l.get() == nullptr && v->r.get() == nullptr)
     {
         code[v->val] = b;
     }
     byte temp = b;
-    if(v->l != nullptr)
+    if(v->l.get() != nullptr)
     {
         b = b.add(0);
-        genCodes(v->l, b);
+        genCodes(v->l.get(), b);
     }
     b = temp;
-    if(v->r != nullptr)
+    if(v->r.get() != nullptr)
     {
         b = b.add(1);
-        genCodes(v->r, b);
+        genCodes(v->r.get(), b);
     }
 }
 
 
-void haffman::strToCode(std::string s)
-{
-    for(int i = 0; i < s.size(); i++)
-    {
-        incSymbol(s[i]);
-    }
-    build();
-
-    for(int i = 0; i < s.size(); i++)
-    {
-        //code[s[i]].out();
-    }
-}
 
 unsigned long long* haffman::getinf()
 {
@@ -120,25 +122,25 @@ std::pair<node*, unsigned char> haffman::shiftDown(uint_fast8_t num, node *v)
 {
     if(v == nullptr)
     {
-        v = root;
+        v = root.get();
     }
-    if(v->r == nullptr && v->l == nullptr)
+    if(v->r.get() == nullptr && v->l.get() == nullptr)
     {
         return {nullptr, v->val};
     }
     if(num == 1)
     {
-        if(v->r->l == v->r->r  && v->r->r == nullptr)
-            return {nullptr, v->r->val};
+        if(v->r.get()->l.get() == v->r.get()->r.get()  && v->r.get()->r.get() == nullptr)
+            return {nullptr, v->r.get()->val};
         else
-            return {v->r, '.'};
+            return {v->r.get(), '.'};
     }
     else
     {
-        if(v->l->l == v->l->r  && v->l->r == nullptr)
-            return {nullptr, v->l->val};
+        if(v->l.get()->l.get() == v->l.get()->r.get()  && v->l.get()->r.get() == nullptr)
+            return {nullptr, v->l.get()->val};
         else
-            return {v->l, '.'};
+            return {v->l.get(), '.'};
     }
     
 }

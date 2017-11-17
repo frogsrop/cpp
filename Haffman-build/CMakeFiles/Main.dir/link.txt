@@ -1,1 +1,1 @@
-/usr/bin/c++   -std=c++11   CMakeFiles/Main.dir/Main.cpp.o CMakeFiles/Main.dir/Haffman.cpp.o CMakeFiles/Main.dir/byte.cpp.o CMakeFiles/Main.dir/node.cpp.o  -o Main -rdynamic 
+/usr/bin/c++   -std=c++11 -g -fsanitize=address,undefined -D_GLIBCXX_DEBUG   CMakeFiles/Main.dir/Main.cpp.o CMakeFiles/Main.dir/Haffman.cpp.o CMakeFiles/Main.dir/byte.cpp.o CMakeFiles/Main.dir/node.cpp.o  -o Main -rdynamic 

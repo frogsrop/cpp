@@ -12,7 +12,7 @@ private:
     static const std::size_t size = 512;
     unsigned long long amount[size];
     byte code[size];
-    node* root = nullptr;
+    std::unique_ptr<node> root = nullptr;
 public:
     ~haffman();
     haffman();
