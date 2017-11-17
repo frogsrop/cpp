@@ -58,34 +58,29 @@ void haffman::build()
     if(q.size() == 1)
     {
         //could not work
-        std::unique_ptr<node> temp(std::move(q.top().second.get()));
+        std::unique_ptr<node> temp(new node(q.top().second.get()->val, q.top().second.get()->l, q.top().second.get()->r));
         q.pop();
-        root.reset(temp);
+        root.reset(temp.release());
         code[root.get()->val] = byte(0,1);
     }
-    int w = 1;
     while(q.size() > 1)
     {
-        std::cout<<"started\n"<<w<<std::endl;
         std::pair<unsigned int, std::unique_ptr<node>> x;
         x.first = q.top().first;
-        x.second.reset(std::move(q.top().second.get()));
+        x.second.reset(new node(q.top().second.get()->val,q.top().second.get()->l, q.top().second.get()->r));
         q.pop();
-        std::cout<<'!'<<std::endl;
         std::pair<unsigned int, std::unique_ptr<node>> y;
         y.first = q.top().first;
-        y.second.reset(std::move(q.top().second.get()));
+        y.second.reset(new node(q.top().second.get()->val, q.top().second.get()->l, q.top().second.get()->r));
         q.pop();
-        std::cout<<'?'<<std::endl;
-        std::unique_ptr<node> temp(new node(-1, std::move(x.second), std::move(y.second)));
-        q.push({x.first + y.first, std::move(temp)});
-        std::cout<<"finished"<<std::endl;
-        w++;
+        q.push({x.first + y.first, std::unique_ptr<node>(new node(-1, x.second, y.second))});
+        new (&(x.second)) std::unique_ptr<node>(new node());
+        new (&(y.second)) std::unique_ptr<node>(new node());
     }
     if(q.size())
     {
         genCodes(q.top().second.get(), byte(0,0));
-        std::unique_ptr<node> temp(std::move(q.top().second.get()));
+        std::unique_ptr<node> temp(new node(q.top().second.get()->val, q.top().second.get()->l, q.top().second.get()->r));
         q.pop();
         root.reset(temp.release());
     }

@@ -81,102 +81,101 @@ void encode(char const* sin, char const* sout)
     out.flush();
     out.close();
 }
-//bool checker(unsigned long long* x, unsigned long long* y)
-//{
-//    for(int i = 0; i < 512; i++)
-//    {
-//        if(x[i]!=y[i])
-//        {
-//            return 0;
-//        }
-//    }
-//    return 1;
-//}
-//void decode(char const * sin, char const* sout)
-//{
-//    ifstream in(sin, ios_base::binary);
-//    if(!in)
-//    {
-//        throw std::runtime_error("no such file");
-//    }
-//    ofstream out(sout, ios_base::binary);
-//    if(!out)
-//    {
-//        throw std::runtime_error("can't write");
-//    }
-//    haffman h;
-//    in >> noskipws;
-//    unsigned long long arrayForCheck[512];
-//    for(int i = 0; i < 512;i++)
-//    {
-//        arrayForCheck[i] = 0;
-//        unsigned long long var = 0;
-//        for(int j = 0; j < 8; j++)
-//        {
-//            char temp = 0;
-//            if(!in.get(temp))
-//            {
-//                throw std::runtime_error("Can't decode file");
-//            }
-//             unsigned char ttemp = (unsigned char) temp;
-//            var <<= 4;
-//            var |= ttemp;
-//        }
-//        h.incSymbol(i, var);
-//    }
-//    unsigned long long am = 0;
-//    for(int j = 0; j < 8; j++)
-//    {
-//        char temp = 0;
-//        if(!in.get(temp))
-//        {
-//            throw std::runtime_error("Can't decode file");
-//        }
-//        unsigned char ttemp = (unsigned char) temp;
-//        am<<=4;
-//        am |= ttemp;
-//    }
+bool checker(unsigned long long* x, unsigned long long* y)
+{
+    for(int i = 0; i < 512; i++)
+    {
+        if(x[i]!=y[i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+void decode(char const * sin, char const* sout)
+{
+    ifstream in(sin, ios_base::binary);
+    if(!in)
+    {
+        throw std::runtime_error("no such file");
+    }
+    ofstream out(sout, ios_base::binary);
+    if(!out)
+    {
+        throw std::runtime_error("can't write");
+    }
+    haffman h;
+    in >> noskipws;
+    unsigned long long arrayForCheck[512];
+    for(int i = 0; i < 512;i++)
+    {
+        arrayForCheck[i] = 0;
+        unsigned long long var = 0;
+        for(int j = 0; j < 8; j++)
+        {
+            char temp = 0;
+            if(!in.get(temp))
+            {
+                throw std::runtime_error("Can't decode file");
+            }
+             unsigned char ttemp = (unsigned char) temp;
+            var <<= 4;
+            var |= ttemp;
+        }
+        h.incSymbol(i, var);
+    }
+    unsigned long long am = 0;
+    for(int j = 0; j < 8; j++)
+    {
+        char temp = 0;
+        if(!in.get(temp))
+        {
+            throw std::runtime_error("Can't decode file");
+        }
+        unsigned char ttemp = (unsigned char) temp;
+        am<<=4;
+        am |= ttemp;
+    }
 
-//    h.build();
-//    char ch = 0;
-//    unsigned char prev = 0;
-//    pair<node*, unsigned char> temp = {nullptr, 0};
-//    while(in.get(ch))
-//    {
-//        unsigned char chh = (unsigned char) ch;
+    h.build();
+    char ch = 0;
+    unsigned char prev = 0;
+    pair<node*, unsigned char> temp = {nullptr, 0};
+    while(in.get(ch))
+    {
+        unsigned char chh = (unsigned char) ch;
+        for(int i = 0; i < 8; i++)
+        {
+            am--;
+            uint_fast8_t cur = (uint_fast8_t) ((chh >> 7) & 1);
+            temp = h.shiftDown(cur, temp.first);
+            if (temp.first == nullptr)
+            {
+                out.put(temp.second);
+                arrayForCheck[temp.second]++;
+                temp = {nullptr, 0};
+            }
+            chh <<= 1;
+            if (am == 0)
+            {
+                if(!checker(h.getinf(), arrayForCheck))
+                {
 
-//        for(int i = 0; i < 8; i++)
-//        {
-//            am--;
-//            uint_fast8_t cur = (uint_fast8_t) ((chh >> 7) & 1);
-//            temp = h.shiftDown(cur, temp.first);
-//            if (temp.first == nullptr)
-//            {
-//                out.put(temp.second);
-//                arrayForCheck[temp.second]++;
-//                temp = {nullptr, 0};
-//            }
-//            chh <<= 1;
-//            if (am == 0)
-//            {
-//                if(!checker(h.getinf(), arrayForCheck))
-//                {
-
-//                    throw std::runtime_error("Can't decode file");
-//                }
-//                in.close();
-//                out.close();
-//                return;
-//            }
-//        }
-//    }
-//    if(!checker(h.getinf(), arrayForCheck))
-//    {
-//        throw std::runtime_error("Can't decode file");
-//    }
-//    in.close();
-//    out.close();
-//}
+                    throw std::runtime_error("Can't decode file");
+                }
+                in.close();
+                out.close();
+                return;
+            }
+        }
+    }
+    if(!checker(h.getinf(), arrayForCheck))
+    {
+        throw std::runtime_error("Can't decode file");
+    }
+    in.close();
+    out.close();
+}
 int main(int argc, char* argv[])
 {
     cout<<"Programm started"<<endl;
@@ -196,7 +195,7 @@ int main(int argc, char* argv[])
         else
         if(strcmp(argv[1], "-de") == 0)
         {
-            //decode(argv[2], argv[3]);
+            decode(argv[2], argv[3]);
             cout<<"decoding finished"<<endl;
         }
         else
@@ -208,27 +207,5 @@ int main(int argc, char* argv[])
     {
         cout<<e.what()<<endl;
     }
-
-/*
-    char in[256];
-    string temp = "../Haffman/Haffman.in";
-    
-
-    strcpy(in, temp.c_str());
-
-    char out[256];
-    temp = "../Haffman/Haffman.out";
-
-    strcpy(out, temp.c_str());
-    encode(in, out);
-    
-    cout<< "encoding finished"<<endl;
-
-    temp = "../Haffman/Haffman.out";
-    strcpy(in, temp.c_str());
-    temp = "../Haffman/Haffman1.out";
-    strcpy(out, temp.c_str());
-    decode(in, out);
-*/
     return 0;
 }

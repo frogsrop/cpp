@@ -7,5 +7,6 @@ public:
     node();
     node(int16_t v);
     node(int16_t val1, std::unique_ptr<node>& x, std::unique_ptr<node>& y);
+    node(int16_t val1, node* x, node* y);
     ~node();
 };

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2017-11-17T20:15:06. -->
+<!-- Written by QtCreator 3.5.1, 2017-11-17T23:27:20. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -157,7 +157,7 @@
      <value type="int">14</value>
     </valuelist>
     <value type="QString" key="CMakeProjectManager.CMakeRunConfiguation.Title">Main</value>
-    <value type="QString" key="CMakeProjectManager.CMakeRunConfiguration.Arguments">-en ../Haffman/image.png ../Haffman/out.s</value>
+    <value type="QString" key="CMakeProjectManager.CMakeRunConfiguration.Arguments">-de ../Haffman/empty.en ../Haffman/empty.de</value>
     <value type="QString" key="CMakeProjectManager.CMakeRunConfiguration.UserWorkingDirectory"></value>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
