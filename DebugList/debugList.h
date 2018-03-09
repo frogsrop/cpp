@@ -21,6 +21,7 @@ public:
 
         iterator operator--(int);
 
+        iterator& operator=(iterator const&);
 
         bool operator!= (iterator const&) const;
         bool operator== (iterator const&) const;
@@ -171,11 +172,12 @@ typename debugList<T>::iterator debugList<T>::erase(const iterator &it)
         size--;
         return begin();
     }
-    std::weak_ptr<node> prev = it.val.lock()-> prev;
-    prev.lock() -> next = next;
-    next -> prev = prev;
-    iterator ret = it;
-    ret++;
+    std::shared_ptr<node> nxt = it.val.lock()->next;
+    std::shared_ptr<node> prv = it.val.lock()->prev.lock();
+    it.val.lock().reset();
+    nxt->prev = prv;
+    prv->next = nxt;
+    iterator ret(nxt, this);
     size--;
     return ret;
 }
@@ -242,7 +244,7 @@ template<typename T>
 typename debugList<T>::iterator &debugList<T>::iterator::operator--()
 {
     assert(!val.expired());
-    *this = iterator(val->prev.lock(), my);
+    *this = iterator(val.lock()->prev.lock(), my);
     assert(!val.expired());
     return *this;
 }
@@ -254,6 +256,14 @@ typename debugList<T>::iterator debugList<T>::iterator::operator--(int)
     iterator it = *this;
     --*this;
     return it;
+}
+
+template<typename T>
+typename debugList<T>::iterator &debugList<T>::iterator::operator=(const debugList<T>::iterator & it)
+{
+    val = it.val;
+    my = it.my;
+    return *this;
 }
 
 
