@@ -4,11 +4,7 @@ using namespace std;
 
 int main()
 {
-    MyVector A(100);
-    MyVector B(A);
-    B[0] = 4;
-    cout<<"______________________________"<<endl;
+    int *x = new int;
     return 0;
 }
-// 189366
 

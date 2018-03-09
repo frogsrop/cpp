@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yanis/cpp/DebugList/debugList.h
+cassert
+-
+set
+-
+memory
+-
+
+/home/yanis/cpp/DebugList/main.cpp
+iostream
+-
+vector
+-
+list
+-
+memory
+-
+debugList.h
+/home/yanis/cpp/DebugList/debugList.h
+

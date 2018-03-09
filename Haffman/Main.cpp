@@ -179,7 +179,8 @@ void decode(char const * sin, char const* sout)
 int main(int argc, char* argv[])
 {
     cout<<"Programm started"<<endl;
-    try{
+    int time = clock();
+    try {
         if(argc != 4)
         {
             cout<<"wrong format\n";
@@ -207,5 +208,6 @@ int main(int argc, char* argv[])
     {
         cout<<e.what()<<endl;
     }
+    cout<<clock()-time;
     return 0;
 }
