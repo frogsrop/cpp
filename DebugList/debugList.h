@@ -92,6 +92,11 @@ public:
     void pop_front();
     void clear();
     void swap(debugList&);
+    friend void swap(debugList& a, debugList& b)
+    {
+        using std::swap;
+        a.swap(b);
+    }
     T front() const;
     T back() const;
 

@@ -12,7 +12,8 @@ int main() {
         x.push_front(i);
         y.push_front(n - 1 -i);
     }
-    x.swap(y);
+    //x.swap(y);
+    swap(x,y);
     cout<<x.size_()<<' ';
     cout<<y.size_()<<endl;
     auto it = x.begin();
