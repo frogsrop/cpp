@@ -13,13 +13,7 @@ memory
 -
 
 /home/yanis/cpp/DebugList/main.cpp
-iostream
--
-vector
--
-list
--
-memory
+bits/stdc++.h
 -
 debugList.h
 /home/yanis/cpp/DebugList/debugList.h
