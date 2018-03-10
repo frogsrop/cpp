@@ -157,11 +157,10 @@ typename debugList<T>::iterator debugList<T>::erase(const iterator &it)
     assert(!it.val.expired());
     assert(size > 0);
     assert(it.val.lock() != tail);
-
     std::shared_ptr<node> next = it.val.lock()->next;
     if(next == tail)
     {
-        head = tail;
+        tail = tail->prev.lock();
         size--;
         return end();
     }
@@ -173,9 +172,8 @@ typename debugList<T>::iterator debugList<T>::erase(const iterator &it)
         size--;
         return begin();
     }
-    std::shared_ptr<node> nxt = it.val.lock()->next;
-    std::shared_ptr<node> prv = it.val.lock()->prev.lock();
-    //it.val.lock().reset();
+    std::shared_ptr<node> nxt = it.val.lock() -> next;
+    std::shared_ptr<node> prv = it.val.lock() -> prev.lock();
     nxt->prev = prv;
     prv->next = nxt;
     iterator ret(nxt, this);
