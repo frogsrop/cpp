@@ -14,6 +14,7 @@ int main() {
     }
     //x.swap(y);
     swap(x,y);
+    cout<<x.back();
     cout<<x.size_()<<' ';
     cout<<y.size_()<<endl;
     auto it = x.begin();

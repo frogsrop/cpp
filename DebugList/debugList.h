@@ -8,6 +8,13 @@ template <typename T> class debugList {
 private:
     class node;
 public:
+    class iterator_imp_const;
+    class iterator_imp;
+
+    using iterator = iterator_imp;
+    using const_iterator = iterator_imp_const;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
     class iterator_imp {
     public:
@@ -19,6 +26,7 @@ public:
         using iterator_category = std::bidirectional_iterator_tag;
 
         iterator_imp();
+        iterator_imp(iterator_imp_const&);
 
         T &operator*() const;
 
@@ -38,11 +46,12 @@ public:
     private:
         friend class debugList;
 
-        iterator_imp(std::weak_ptr<node>const& x, debugList<T> *i);
+        iterator_imp(std::weak_ptr<node>const&, debugList<T>*);
 
         std::weak_ptr<node> val;
         debugList *my;
     };
+
 
 
     class iterator_imp_const {
@@ -74,7 +83,7 @@ public:
     private:
         friend class debugList;
 
-        iterator_imp_const(std::weak_ptr<node>const& x, const debugList<T> *i);
+        iterator_imp_const(std::weak_ptr<node>const&, const debugList<T>*);
 
         std::weak_ptr<node> val;
         debugList const *my;
@@ -91,7 +100,11 @@ public:
     void pop_back();
     void pop_front();
     void clear();
+    bool empty();
     void swap(debugList&);
+    reverse_iterator rbegin();
+    reverse_iterator rend();
+
     friend void swap(debugList& a, debugList& b)
     {
         using std::swap;
@@ -99,7 +112,12 @@ public:
     }
     T front() const;
     T back() const;
-
+    /*
+     compare dif types
+     conertion betwean
+     empty
+    rev it
+    */
     iterator_imp begin();
     const iterator_imp_const begin() const;
 
@@ -220,6 +238,21 @@ void debugList<T>::clear()
     {pop_back();}
 }
 template<typename T>
+bool debugList<T>::empty()
+{
+    return size == 0;
+}
+template<typename T>
+typename debugList<T>::reverse_iterator debugList<T>::rbegin()
+{
+    return reverse_iterator(begin);
+}
+template<typename T>
+typename debugList<T>::reverse_iterator debugList<T>::rend()
+{
+    return reverse_iterator(end);
+}
+template<typename T>
 void debugList<T>::swap(debugList<T>& x)
 {
     if(size == 0)
@@ -252,7 +285,7 @@ template<typename T>
 T debugList<T>::back() const
 {
     assert(size > 0);
-    iterator_imp temp = end();
+    iterator_imp_const temp = end();
     temp--;
     return (*temp);
 }
@@ -371,6 +404,13 @@ debugList<T>::iterator_imp::iterator_imp()
 {
     val = std::weak_ptr<node>();
     my = nullptr;
+}
+
+template<typename T>
+debugList<T>::iterator_imp::iterator_imp(iterator_imp_const &x)
+{
+    val = x;
+    my = x.my;
 }
 
 template<typename T>
