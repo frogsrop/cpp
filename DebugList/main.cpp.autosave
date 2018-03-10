@@ -24,13 +24,15 @@ int main()
         }
         if(ls.size_()==0)
             continue;
-        /*if(p == 3)
+        /*
+        if(p == 3)
         {
             ls.pop_back();
         }if(p == 4)
         {
             ls.pop_front();
-        }*/
+        }
+        */
     }
     return 0;
 }
