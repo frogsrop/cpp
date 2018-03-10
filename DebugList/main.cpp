@@ -13,6 +13,8 @@ int main() {
         y.push_front(n - 1 -i);
     }
     //x.swap(y);
+    auto ss = x.rend();
+    cout<<x.empty();
     swap(x,y);
     cout<<x.back();
     cout<<x.size_()<<' ';

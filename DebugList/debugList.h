@@ -245,12 +245,12 @@ bool debugList<T>::empty()
 template<typename T>
 typename debugList<T>::reverse_iterator debugList<T>::rbegin()
 {
-    return reverse_iterator(begin);
+    return reverse_iterator(debugList<T>::begin());
 }
 template<typename T>
 typename debugList<T>::reverse_iterator debugList<T>::rend()
 {
-    return reverse_iterator(end);
+    return reverse_iterator(debugList<T>::end());
 }
 template<typename T>
 void debugList<T>::swap(debugList<T>& x)
