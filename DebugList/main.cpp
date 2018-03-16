@@ -6,31 +6,31 @@ debugList<int> x;
 debugList<int> y;
 
 int main() {
-    int n = 10;
-    for(int i = 0;i<n;i++)
+    x.push_back(1);
+    x.push_back(2);
+    x.push_back(3);
+    x.push_back(4);
+    x.push_back(5);
+    y.push_back(6);
+    y.push_back(7);
+    y.push_back(8);
+    y.push_back(9);
+    y.push_back(10);
+    const debugList<int> any =  y;
+    auto it1 = y.begin();
+    debugList<int>::const_iterator it2 = y.begin();
+    (++++++it1);
+    (++++it2);
+    cout<<(it1 == it1);
+    for(auto rit = x.rbegin(); rit!=x.rend(); rit++)
     {
-        x.push_front(i);
-        y.push_front(n - 1 -i);
+        cout<<(*rit)<<' ';
     }
-    //x.swap(y);
-    auto ss = x.rend();
-    cout<<x.empty();
-    swap(x,y);
-    cout<<x.back();
-    cout<<x.size_()<<' ';
-    cout<<y.size_()<<endl;
-    auto it = x.begin();
-    auto itt = y.begin();
-    for(int i = 0;i<n;i++)
-    {
-        cout<<(*it)<<' ';
-        cout<<(*itt)<<endl;
-        it++;
-        itt++;
-    }
-
-    debugList<int>::iterator_imp ittt;
-    ittt = it;
-    ittt--;
-    cout<<*ittt;
 }
+/*
+iterator to const
+const it
+my const to non const
+rbegin rend const
+
+*/

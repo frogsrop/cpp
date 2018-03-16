@@ -26,7 +26,6 @@ public:
         using iterator_category = std::bidirectional_iterator_tag;
 
         iterator_imp();
-        iterator_imp(iterator_imp_const&);
 
         T &operator*() const;
 
@@ -41,9 +40,12 @@ public:
         iterator_imp& operator=(iterator_imp const&);
 
         bool operator!= (iterator_imp const&) const;
-        bool operator== (iterator_imp const&) const;
-
-    private:
+        friend bool operator== (iterator_imp const& x, iterator_imp const& y)
+        {
+            assert(x.my==y.my);
+            return (x.val.lock() == y.val.lock());
+        }
+        private:
         friend class debugList;
 
         iterator_imp(std::weak_ptr<node>const&, debugList<T>*);
@@ -64,6 +66,7 @@ public:
         using iterator_category = std::bidirectional_iterator_tag;
 
         iterator_imp_const();
+        iterator_imp_const(const iterator_imp &);
 
         const T &operator*() const;
 
@@ -78,7 +81,11 @@ public:
         iterator_imp_const& operator=(iterator_imp_const const&);
 
         bool operator!= (iterator_imp_const const&) const;
-        bool operator== (iterator_imp_const const&) const;
+        friend bool operator== (iterator_imp_const const& x, iterator_imp_const const& y)
+        {
+            assert(x.my==y.my);
+            return (x.val.lock() == y.val.lock());
+        }
 
     private:
         friend class debugList;
@@ -102,14 +109,13 @@ public:
     void clear();
     bool empty();
     void swap(debugList&);
-    reverse_iterator rbegin();
-    reverse_iterator rend();
 
     friend void swap(debugList& a, debugList& b)
     {
         using std::swap;
         a.swap(b);
     }
+
     T front() const;
     T back() const;
     /*
@@ -123,6 +129,12 @@ public:
 
     iterator_imp end();
     const iterator_imp_const end() const;
+
+    reverse_iterator rbegin();
+    const iterator_imp_const rbegin() const;
+
+    reverse_iterator rend();
+    const iterator_imp_const rend() const;
 
     void insert(iterator_imp const& it,T const & val);
 
@@ -245,12 +257,25 @@ bool debugList<T>::empty()
 template<typename T>
 typename debugList<T>::reverse_iterator debugList<T>::rbegin()
 {
-    return reverse_iterator(debugList<T>::begin());
+    return reverse_iterator(debugList<T>::end());
 }
+
+template<typename T>
+const typename debugList<T>::iterator_imp_const debugList<T>::rbegin() const
+{
+    return const_reverse_iterator(debugList<T>::end());
+}
+
 template<typename T>
 typename debugList<T>::reverse_iterator debugList<T>::rend()
 {
-    return reverse_iterator(debugList<T>::end());
+    return reverse_iterator(debugList<T>::begin());
+}
+
+template<typename T>
+const typename debugList<T>::iterator_imp_const debugList<T>::rend() const
+{
+    return const_reverse_iterator(debugList<T>::begin());
 }
 template<typename T>
 void debugList<T>::swap(debugList<T>& x)
@@ -407,13 +432,6 @@ debugList<T>::iterator_imp::iterator_imp()
 }
 
 template<typename T>
-debugList<T>::iterator_imp::iterator_imp(iterator_imp_const &x)
-{
-    val = x;
-    my = x.my;
-}
-
-template<typename T>
 T &debugList<T>::iterator_imp::operator*() const
 {
     assert(!val.expired());
@@ -475,11 +493,7 @@ bool debugList<T>::iterator_imp::operator!=(debugList<T>::iterator_imp const &p)
     assert(p.my == this->my);
     return val.lock() != p.val.lock();
 }
-template<typename T>
-bool debugList<T>::iterator_imp::operator==(debugList<T>::iterator_imp const &p) const
-{
-    return !(val.lock() != p.val.lock());
-}
+
 
 //iterator_imp_const
 template<typename T>
@@ -493,6 +507,13 @@ debugList<T>::iterator_imp_const::iterator_imp_const()
 {
     val = std::weak_ptr<node>();
     my = nullptr;
+}
+
+template<typename T>
+debugList<T>::iterator_imp_const::iterator_imp_const(debugList<T>::iterator_imp const& x)
+{
+    val = x.val;
+    my = x.my;
 }
 template<typename T>
 const T &debugList<T>::iterator_imp_const::operator*() const
@@ -556,11 +577,8 @@ bool debugList<T>::iterator_imp_const::operator!=(debugList<T>::iterator_imp_con
     assert(p.my == this->my);
     return val.lock() != p.val.lock();
 }
-template<typename T>
-bool debugList<T>::iterator_imp_const::operator==(debugList<T>::iterator_imp_const const &p) const
-{
-    return !(val.lock() != p.val.lock());
-}
+
+
 
 
 
