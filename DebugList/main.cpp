@@ -5,11 +5,6 @@ using namespace std;
 debugList<int> x;
 debugList<int> y;
 
-struct A {
-  int x;
-  A(int a) { x = a; }
-};
-
 int main() {
   x.push_back(1);
   x.push_back(2);
@@ -22,11 +17,11 @@ int main() {
   y.push_back(9);
   y.push_back(10);
   const debugList<int> any = y;
-  auto it1 = y.begin();
-  debugList<int>::const_iterator it2 = y.begin();
+  auto it1 = y.rbegin();
+  debugList<int>::const_reverse_iterator it2 = y.rbegin();
   (++++++it1);
   (++++it2);
-  cout << (it1 == it1) << endl;
+  cout << (it1 == it2) << endl;
   for (auto rit = x.rbegin(); rit != x.rend(); rit++) {
     cout << (*rit) << ' ';
   }
@@ -34,9 +29,9 @@ int main() {
   // debugList<A> a;
 }
 /*
-iterator to const
-const it
-my const to non const
-rbegin rend const
-
+ * != it const
+ * splice const it
+ * rbegin
+ * rend
+ *
 */

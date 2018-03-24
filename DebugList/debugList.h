@@ -40,9 +40,19 @@ public:
     iterator_imp &operator=(iterator_imp const &);
 
     bool operator!=(iterator_imp const &) const;
+
     friend bool operator==(iterator_imp const &x, iterator_imp const &y) {
+      assert(!x.val.expired());
+      assert(!y.val.expired());
       assert(x.my == y.my);
       return (x.val.lock() == y.val.lock());
+    }
+
+    friend bool operator!=(iterator_imp const &x, iterator_imp const &y) {
+      assert(!x.val.expired());
+      assert(!y.val.expired());
+      assert(x.my == y.my);
+      return !(x == y);
     }
 
   private:
@@ -77,11 +87,20 @@ public:
 
     iterator_imp_const &operator=(iterator_imp_const const &);
 
-    bool operator!=(iterator_imp_const const &) const;
     friend bool operator==(iterator_imp_const const &x,
                            iterator_imp_const const &y) {
+      assert(!x.val.expired());
+      assert(!y.val.expired());
       assert(x.my == y.my);
       return (x.val.lock() == y.val.lock());
+    }
+
+    friend bool operator!=(iterator_imp_const const &x, iterator_imp_const const &y)
+    {
+        assert(!x.val.expired());
+        assert(!y.val.expired());
+        assert(x.my == y.my);
+        return !(x == y);
     }
 
   private:
@@ -121,17 +140,17 @@ public:
   const iterator_imp_const end() const;
 
   reverse_iterator rbegin();
-  const iterator_imp_const rbegin() const;
+  const const_reverse_iterator rbegin() const;
 
   reverse_iterator rend();
-  const iterator_imp_const rend() const;
+  const const_reverse_iterator rend() const;
 
   void insert(iterator_imp const &it, T const &val);
 
   iterator_imp erase(iterator_imp const &it);
 
-  void splice(iterator_imp const &before, debugList<T> &list2, iterator_imp it1,
-              iterator_imp const &it2);
+  void splice(iterator_imp_const const &before, debugList<T> &list2, iterator_imp_const it1,
+              iterator_imp_const const &it2);
 
   size_t size_() { return size; }
 
@@ -230,7 +249,7 @@ typename debugList<T>::reverse_iterator debugList<T>::rbegin() {
 }
 
 template <typename T>
-const typename debugList<T>::iterator_imp_const debugList<T>::rbegin() const {
+const typename debugList<T>::const_reverse_iterator debugList<T>::rbegin() const {
   return const_reverse_iterator(debugList<T>::end());
 }
 
@@ -240,8 +259,8 @@ typename debugList<T>::reverse_iterator debugList<T>::rend() {
 }
 
 template <typename T>
-const typename debugList<T>::iterator_imp_const debugList<T>::rend() const {
-  return const_reverse_iterator(debugList<T>::begin());
+const typename debugList<T>::const_reverse_iterator debugList<T>::rend() const {
+  return const_reverse_iterator((iterator_imp_const) debugList<T>::begin());
 }
 template <typename T> void debugList<T>::swap(debugList<T> &x) {
   if (size == 0) {
@@ -340,9 +359,9 @@ debugList<T>::erase(const iterator_imp &it) {
 }
 
 template <typename T>
-void debugList<T>::splice(const iterator_imp &before, debugList<T> &list2,
-                          debugList<T>::iterator_imp it1,
-                          const iterator_imp &it2) {
+void debugList<T>::splice(const iterator_imp_const &before, debugList<T> &list2,
+                          iterator_imp_const it1,
+                          const iterator_imp_const &it2) {
   assert(it1.my == &list2);
   assert(it2.my == &list2);
   assert(before.my == this);
@@ -428,15 +447,6 @@ operator=(const debugList<T>::iterator_imp &it) {
   return *this;
 }
 
-template <typename T>
-bool debugList<T>::iterator_imp::
-operator!=(debugList<T>::iterator_imp const &p) const {
-  assert(!val.expired());
-  assert(!p.val.expired());
-  assert(p.my == this->my);
-  return val.lock() != p.val.lock();
-}
-
 // iterator_imp_const
 template <typename T>
 debugList<T>::iterator_imp_const::iterator_imp_const(
@@ -507,12 +517,4 @@ operator=(const debugList<T>::iterator_imp_const &it) {
   return *this;
 }
 
-template <typename T>
-bool debugList<T>::iterator_imp_const::
-operator!=(debugList<T>::iterator_imp_const const &p) const {
-  assert(!val.expired());
-  assert(!p.val.expired());
-  assert(p.my == this->my);
-  return val.lock() != p.val.lock();
-}
 #endif
