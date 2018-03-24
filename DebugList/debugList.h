@@ -148,7 +148,7 @@ public:
   iterator_imp_const erase(iterator_imp_const const &it);
 
   void splice(iterator_imp_const const &before, debugList<T> &list2,
-              iterator_imp_const it1, iterator_imp_const const &it2);
+              iterator_imp_const it1, iterator_imp_const it2);
 
   size_t size_() { return size; }
 
@@ -333,12 +333,6 @@ debugList<T>::erase(const iterator_imp_const &it) {
   assert(size > 0);
   assert(it.val.lock() != tail);
   std::shared_ptr<node> next = it.val.lock()->next;
-  if (next == tail) {
-    tail = tail->prev.lock();
-    tail->next = nullptr;
-    size--;
-    return end();
-  }
 
   if (it.val.lock() == head) {
     head = next;
@@ -346,6 +340,15 @@ debugList<T>::erase(const iterator_imp_const &it) {
     size--;
     return begin();
   }
+
+  if (next == tail) {
+    std::shared_ptr<node> prev = next->prev.lock();
+    prev->prev.lock()->next = next;
+    next->prev = prev->prev;
+    size--;
+    return end();
+  }
+
   std::shared_ptr<node> nxt = it.val.lock()->next;
   std::shared_ptr<node> prv = it.val.lock()->prev.lock();
   nxt->prev = prv;
@@ -358,7 +361,7 @@ debugList<T>::erase(const iterator_imp_const &it) {
 template <typename T>
 void debugList<T>::splice(const iterator_imp_const &before, debugList<T> &list2,
                           iterator_imp_const it1,
-                          const iterator_imp_const &it2) {
+                          iterator_imp_const it2) {
   assert(it1.my == &list2);
   assert(it2.my == &list2);
   assert(before.my == this);
@@ -374,11 +377,22 @@ void debugList<T>::splice(const iterator_imp_const &before, debugList<T> &list2,
 
   assert(check == it2);
 
+  check = it1;
+  if (this == it1.my) {
+    while (check.val.lock() != list2.tail) {
+      assert(check != before);
+      check++;
+    }
+  }
+  it2--;
   while (it1 != list2.end() && it1.val.lock() != it2.val.lock()) {
     T temp = it1.val.lock()->obj;
     it1 = list2.erase(it1);
     insert(before, temp);
   }
+  T temp = it2.val.lock()->obj;
+  list2.erase(it2);
+  insert(before, temp);
 }
 
 // iterator_imp
