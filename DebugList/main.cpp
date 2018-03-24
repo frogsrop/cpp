@@ -27,13 +27,14 @@ int main() {
     debugList<int>::const_iterator it = x.begin();
     debugList<int>::const_iterator it1 = y.begin();
     debugList<int>::const_iterator it2 = y.end();
-
-    x.splice(it,y,it1,it2);
+    auto z = x;
+    z = z;
+    auto itsp = z.begin();
+    ++++itsp;
+    z.splice(z.begin(), z, z.begin(), z.end());
+    for(auto& u:z)
+    {
+        cout<<u;
+    }
+//    x.splice(it,y,it1,it2);
 }
-/*
- * != it const
- * splice const it
- * rbegin
- * rend
- *
-*/
