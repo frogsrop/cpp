@@ -39,8 +39,6 @@ public:
 
     iterator_imp &operator=(iterator_imp const &);
 
-    bool operator!=(iterator_imp const &) const;
-
     friend bool operator==(iterator_imp const &x, iterator_imp const &y) {
       assert(!x.val.expired());
       assert(!y.val.expired());
@@ -145,9 +143,9 @@ public:
   reverse_iterator rend();
   const const_reverse_iterator rend() const;
 
-  void insert(iterator_imp const &it, T const &val);
+  void insert(iterator_imp_const const &it, T const &val);
 
-  iterator_imp erase(iterator_imp const &it);
+  iterator_imp_const erase(iterator_imp_const const &it);
 
   void splice(iterator_imp_const const &before, debugList<T> &list2, iterator_imp_const it1,
               iterator_imp_const const &it2);
@@ -310,7 +308,7 @@ const typename debugList<T>::iterator_imp_const debugList<T>::end() const {
   return iterator_imp_const(tail, this);
 }
 template <typename T>
-void debugList<T>::insert(const iterator_imp &it, const T &val) {
+void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
   assert(it.my == this);
   assert(!it.val.expired());
 
@@ -329,8 +327,7 @@ void debugList<T>::insert(const iterator_imp &it, const T &val) {
   size++;
 }
 template <typename T>
-typename debugList<T>::iterator_imp
-debugList<T>::erase(const iterator_imp &it) {
+typename debugList<T>::iterator_imp_const debugList<T>::erase(const iterator_imp_const &it) {
   assert(it.my == this);
   assert(!it.val.expired());
   assert(size > 0);
@@ -372,7 +369,7 @@ void debugList<T>::splice(const iterator_imp_const &before, debugList<T> &list2,
 
   assert(it1.my != before.my);
 
-  iterator_imp check = it1;
+  iterator_imp_const check = it1;
   while (check.val.lock() != list2.tail && check != it2) {
     check++;
   }
