@@ -9,24 +9,17 @@ debugList<int> x;
 debugList<int> y;
 
 int main() {
-  x.push_back(1);
 
-  x.push_back(2);
+  for (int i = 0; i < 10000; i++) {
+    x.push_back(i);
+  }
 
-  x.push_back(3);
-
-  x.push_back(4);
-
-  y.push_back(5);
-
-  y.push_back(6);
-
-  y.push_back(7);
-
-  y.push_back(8);
-  swap(x, y);
-
-  debugList<int>::const_iterator it = x.begin();
-  debugList<int>::const_iterator it1 = y.begin();
+  for (int i = 0; i < 20000; i++) {
+    y.push_back(i);
+  }
+  auto it = x.begin();
+  it = x.erase(it);
+  x.erase(it++);
+  cout<<(*x.begin())<<(*it);
   return 0;
 }

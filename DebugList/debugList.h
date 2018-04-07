@@ -144,7 +144,7 @@ public:
 
   void insert(iterator_imp_const const &it, T const &val);
 
-  iterator_imp_const erase(iterator_imp_const const &it);
+  iterator_imp erase(iterator_imp_const const &it);
 
   void splice(iterator_imp_const const &before, debugList<T> &list2,
               iterator_imp_const it1, iterator_imp_const it2);
@@ -265,13 +265,13 @@ template <typename T> void debugList<T>::swap(debugList<T> &x) {
   std::swap(x.size, size);
   auto from = head;
   while (from != nullptr) {
-      from->my = this;
-      from = from->next;
+    from->my = this;
+    from = from->next;
   }
   from = x.head;
   while (from != nullptr) {
-      from->my = &x;
-      from = from->next;
+    from->my = &x;
+    from = from->next;
   }
 }
 
@@ -310,8 +310,7 @@ void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
   assert(!it.val.expired());
 
   if (it.val.lock() == head) {
-    std::shared_ptr<node> nhead(
-        new node(val, std::weak_ptr<node>(), head, this));
+    std::shared_ptr<node> nhead(new node(val, std::weak_ptr<node>(), head, this));
     head->prev = nhead;
     head = nhead;
     size++;
@@ -325,7 +324,7 @@ void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
   size++;
 }
 template <typename T>
-typename debugList<T>::iterator_imp_const
+typename debugList<T>::iterator_imp
 debugList<T>::erase(const iterator_imp_const &it) {
   assert(it.val.lock()->my == this);
   assert(!it.val.expired());
