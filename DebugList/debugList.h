@@ -42,24 +42,23 @@ public:
     friend bool operator==(iterator_imp const &x, iterator_imp const &y) {
       assert(!x.val.expired());
       assert(!y.val.expired());
-      assert(x.my == y.my);
+      assert(x.val.lock()->my == y.val.lock()->my);
       return (x.val.lock() == y.val.lock());
     }
 
     friend bool operator!=(iterator_imp const &x, iterator_imp const &y) {
       assert(!x.val.expired());
       assert(!y.val.expired());
-      assert(x.my == y.my);
+      assert(x.val.lock()->my == y.val.lock()->my);
       return !(x == y);
     }
 
   private:
     friend class debugList;
 
-    iterator_imp(std::weak_ptr<node> const &, debugList<T> *);
+    iterator_imp(std::weak_ptr<node> const &);
 
     std::weak_ptr<node> val;
-    debugList *my;
   };
 
   class iterator_imp_const {
@@ -89,7 +88,7 @@ public:
                            iterator_imp_const const &y) {
       assert(!x.val.expired());
       assert(!y.val.expired());
-      assert(x.my == y.my);
+      assert(x.val.lock()->my == y.val.lock()->my);
       return (x.val.lock() == y.val.lock());
     }
 
@@ -97,17 +96,16 @@ public:
                            iterator_imp_const const &y) {
       assert(!x.val.expired());
       assert(!y.val.expired());
-      assert(x.my == y.my);
+      assert(x.val.lock()->my == y.val.lock()->my);
       return !(x == y);
     }
 
   private:
     friend class debugList;
 
-    iterator_imp_const(std::weak_ptr<node> const &, const debugList<T> *);
+    iterator_imp_const(std::weak_ptr<node> const &);
 
     std::weak_ptr<node> val;
-    debugList const *my;
   };
 
   debugList();
@@ -121,6 +119,7 @@ public:
   void pop_front();
   void clear();
   bool empty();
+
   void swap(debugList &);
 
   friend void swap(debugList &a, debugList &b) {
@@ -155,29 +154,30 @@ public:
 private:
   class node {
   public:
-    node() {
+    node(debugList *my) {
       prev = std::weak_ptr<node>();
       next = nullptr;
+      this->my = my;
     }
     node(T const &x, std::weak_ptr<node> const &prv,
-         std::shared_ptr<node> const &nxt) {
+         std::shared_ptr<node> const &nxt, debugList *my) {
       obj = x;
       prev = prv;
       next = nxt;
+      this->my = my;
     }
-
     T obj;
     std::shared_ptr<node> next;
     std::weak_ptr<node> prev;
+    debugList *my;
   };
-
   int size;
   std::shared_ptr<node> head;
   std::shared_ptr<node> tail;
 };
 
 template <typename T> debugList<T>::debugList() {
-  head = std::make_shared<node>(node());
+  head = std::make_shared<node>(node(this));
   tail = head;
   size = 0;
 }
@@ -190,14 +190,14 @@ debugList<T> &debugList<T>::operator=(const debugList<T> &x) {
 }
 
 template <typename T> debugList<T>::debugList(debugList<T> const &x) {
-  head = std::make_shared<node>(node());
+  head = std::make_shared<node>(node(this));
   tail = head;
   size = 0;
   if (!x.size) {
     return;
   }
   T val = x.front();
-  std::shared_ptr<node> nhead(new node(val, std::weak_ptr<node>(), head));
+  std::shared_ptr<node> nhead(new node(val, std::weak_ptr<node>(), head, this));
   fflush(stdout);
   head->prev = nhead;
   fflush(stdout);
@@ -207,7 +207,7 @@ template <typename T> debugList<T>::debugList(debugList<T> const &x) {
   auto it = x.begin();
   it++;
   while (it != x.end()) {
-    nhead->next = std::make_shared<node>(node(*it, nhead, nullptr));
+    nhead->next = std::make_shared<node>(node(*it, nhead, nullptr, this));
     nhead = nhead->next;
     it++;
     size++;
@@ -260,21 +260,19 @@ const typename debugList<T>::const_reverse_iterator debugList<T>::rend() const {
   return const_reverse_iterator((iterator_imp_const)debugList<T>::begin());
 }
 template <typename T> void debugList<T>::swap(debugList<T> &x) {
-  if (size == 0) {
-    *this = x;
-    x.clear();
-    return;
+  head.swap(x.head);
+  tail.swap(x.tail);
+  std::swap(x.size, size);
+  auto from = head;
+  while (from != nullptr) {
+      from->my = this;
+      from = from->next;
   }
-  if (x.size == 0) {
-    x = *this;
-    clear();
-    return;
+  from = x.head;
+  while (from != nullptr) {
+      from->my = &x;
+      from = from->next;
   }
-  auto cur = end();
-  cur--;
-  splice(end(), x, x.begin(), x.end());
-  cur++;
-  x.splice(x.end(), *this, begin(), cur);
 }
 
 template <typename T> T debugList<T>::front() const {
@@ -291,28 +289,29 @@ template <typename T> T debugList<T>::back() const {
 
 template <typename T>
 typename debugList<T>::iterator_imp debugList<T>::begin() {
-  return iterator_imp(head, this);
+  return iterator_imp(head);
 }
 template <typename T>
 const typename debugList<T>::iterator_imp_const debugList<T>::begin() const {
-  return iterator_imp_const(head, this);
+  return iterator_imp_const(head);
 }
 
 template <typename T> typename debugList<T>::iterator_imp debugList<T>::end() {
-  return iterator_imp(tail, this);
+  return iterator_imp(tail);
 }
 
 template <typename T>
 const typename debugList<T>::iterator_imp_const debugList<T>::end() const {
-  return iterator_imp_const(tail, this);
+  return iterator_imp_const(tail);
 }
 template <typename T>
 void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
-  assert(it.my == this);
+  assert(it.val.lock()->my == this);
   assert(!it.val.expired());
 
   if (it.val.lock() == head) {
-    std::shared_ptr<node> nhead(new node(val, std::weak_ptr<node>(), head));
+    std::shared_ptr<node> nhead(
+        new node(val, std::weak_ptr<node>(), head, this));
     head->prev = nhead;
     head = nhead;
     size++;
@@ -320,7 +319,7 @@ void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
   }
   std::shared_ptr<node> next = it.val.lock();
   std::weak_ptr<node> prev = next->prev;
-  std::shared_ptr<node> nnode(new node(val, prev, next));
+  std::shared_ptr<node> nnode(new node(val, prev, next, this));
   prev.lock()->next = nnode;
   next->prev = nnode;
   size++;
@@ -328,7 +327,7 @@ void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
 template <typename T>
 typename debugList<T>::iterator_imp_const
 debugList<T>::erase(const iterator_imp_const &it) {
-  assert(it.my == this);
+  assert(it.val.lock()->my == this);
   assert(!it.val.expired());
   assert(size > 0);
   assert(it.val.lock() != tail);
@@ -353,71 +352,85 @@ debugList<T>::erase(const iterator_imp_const &it) {
   std::shared_ptr<node> prv = it.val.lock()->prev.lock();
   nxt->prev = prv;
   prv->next = nxt;
-  iterator_imp ret(nxt, this);
+  iterator_imp ret(nxt);
   size--;
   return ret;
 }
 
 template <typename T>
-void debugList<T>::splice(const iterator_imp_const &before, debugList<T> &list2,
-                          iterator_imp_const it1,
-                          iterator_imp_const it2) {
-  assert(it1.my == &list2);
-  assert(it2.my == &list2);
-  assert(before.my == this);
+void debugList<T>::splice(iterator_imp_const const &before, debugList<T> &list2,
+                          iterator_imp_const it1, iterator_imp_const it2) {
+  assert(it1.val.lock()->my == &list2);
+  assert(it2.val.lock()->my == &list2);
+  assert(before.val.lock()->my == this);
 
   assert(!before.val.expired());
   assert(!it1.val.expired());
   assert(!it2.val.expired());
 
+  assert(this != &list2);
+
   iterator_imp_const check = it1;
+  int amount = 0;
   while (check.val.lock() != list2.tail && check != it2) {
     check++;
+    amount++;
   }
-
+  amount--;
   assert(check == it2);
+  if (it1 == it2)
+    return;
+  std::shared_ptr<node> left = it1.val.lock();
+  std::shared_ptr<node> right = it2.val.lock();
 
-  check = it1;
-  if (this == it1.my) {
-    while (check.val.lock() != list2.tail) {
-      assert(check != before);
-      check++;
-    }
+  std::shared_ptr<node> end = before.val.lock();
+
+  if (end == head) {
+    right->next = end;
+    end->prev = right;
+    head = left;
+  } else {
+    std::shared_ptr<node> begin = end->prev.lock();
+
+    left->prev = begin;
+    right->next = end;
+    end->prev = right;
+    begin->next = left;
   }
-  it2--;
-  while (it1 != list2.end() && it1.val.lock() != it2.val.lock()) {
-    T temp = it1.val.lock()->obj;
-    it1 = list2.erase(it1);
-    insert(before, temp);
+  /*
+  it1.val.lock() -> prev = obf;
+  it2.val.lock() -> next = before.val.lock();
+  before.val.lock() -> prev = it2.val.lock();
+*/
+  size += amount;
+  list2.size -= amount;
+  while (it1 != it2) {
+    it1.val.lock()->my = this;
+    it1++;
   }
-  T temp = it2.val.lock()->obj;
-  list2.erase(it2);
-  insert(before, temp);
+  it2.val.lock()->my = this;
 }
 
 // iterator_imp
 template <typename T>
-debugList<T>::iterator_imp::iterator_imp(std::weak_ptr<node> const &x,
-                                         debugList<T> *i) {
+debugList<T>::iterator_imp::iterator_imp(std::weak_ptr<node> const &x) {
   val = x;
-  my = i;
 }
 
 template <typename T> debugList<T>::iterator_imp::iterator_imp() {
   val = std::weak_ptr<node>();
-  my = nullptr;
 }
 
 template <typename T> T &debugList<T>::iterator_imp::operator*() const {
   assert(!val.expired());
-  assert(val.lock() != my->tail);
+  assert(val.lock() != val.lock()->my->tail);
   return val.lock()->obj;
 }
 
 template <typename T>
 typename debugList<T>::iterator_imp &debugList<T>::iterator_imp::operator++() {
   assert(!val.expired());
-  *this = iterator_imp((val.lock()->next), my);
+  *this = iterator_imp((val.lock()->next));
   assert(!val.expired());
   return *this;
 }
@@ -434,7 +447,7 @@ operator++(int) {
 template <typename T>
 typename debugList<T>::iterator_imp &debugList<T>::iterator_imp::operator--() {
   assert(!val.expired());
-  *this = iterator_imp(val.lock()->prev.lock(), my);
+  *this = iterator_imp(val.lock()->prev.lock());
   assert(!val.expired());
   return *this;
 }
@@ -452,33 +465,29 @@ template <typename T>
 typename debugList<T>::iterator_imp &debugList<T>::iterator_imp::
 operator=(const debugList<T>::iterator_imp &it) {
   val = it.val;
-  my = it.my;
   return *this;
 }
 
 // iterator_imp_const
 template <typename T>
 debugList<T>::iterator_imp_const::iterator_imp_const(
-    std::weak_ptr<node> const &x, const debugList<T> *i) {
+    std::weak_ptr<node> const &x) {
   val = x;
-  my = i;
 }
 
 template <typename T> debugList<T>::iterator_imp_const::iterator_imp_const() {
   val = std::weak_ptr<node>();
-  my = nullptr;
 }
 
 template <typename T>
 debugList<T>::iterator_imp_const::iterator_imp_const(
     debugList<T>::iterator_imp const &x) {
   val = x.val;
-  my = x.my;
 }
 template <typename T>
 const T &debugList<T>::iterator_imp_const::operator*() const {
   assert(!val.expired());
-  assert(val.lock() != my->tail);
+  assert(val.lock() != val.lock()->my->tail);
   return val.lock()->obj;
 }
 
@@ -486,7 +495,7 @@ template <typename T>
 typename debugList<T>::iterator_imp_const &debugList<T>::iterator_imp_const::
 operator++() {
   assert(!val.expired());
-  *this = iterator_imp_const((val.lock()->next), my);
+  *this = iterator_imp_const((val.lock()->next));
   assert(!val.expired());
   return *this;
 }
@@ -504,7 +513,7 @@ template <typename T>
 typename debugList<T>::iterator_imp_const &debugList<T>::iterator_imp_const::
 operator--() {
   assert(!val.expired());
-  *this = iterator_imp_const(val.lock()->prev.lock(), my);
+  *this = iterator_imp_const(val.lock()->prev.lock());
   assert(!val.expired());
   return *this;
 }
@@ -522,7 +531,6 @@ template <typename T>
 typename debugList<T>::iterator_imp_const &debugList<T>::iterator_imp_const::
 operator=(const debugList<T>::iterator_imp_const &it) {
   val = it.val;
-  my = it.my;
   return *this;
 }
 

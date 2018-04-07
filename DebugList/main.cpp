@@ -24,25 +24,9 @@ int main() {
   y.push_back(7);
 
   y.push_back(8);
+  swap(x, y);
+
   debugList<int>::const_iterator it = x.begin();
   debugList<int>::const_iterator it1 = y.begin();
-  debugList<int>::const_iterator it2 = y.end();
-  auto z = x;
-  z = z;
-
-  z.splice(z.end(), z, z.begin(), z.end());
-
-  auto itsp = z.begin();
-  itsp++;
-
-  for (auto &u : z) {
-    cout << u;
-  }
-
-  z.splice(z.begin(), z, itsp, z.end());
-
-  for (auto &u : z) {
-    cout << u;
-  }
-  //    x.splice(it,y,it1,it2);
+  return 0;
 }
