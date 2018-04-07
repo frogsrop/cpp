@@ -310,7 +310,8 @@ void debugList<T>::insert(const iterator_imp_const &it, const T &val) {
   assert(!it.val.expired());
 
   if (it.val.lock() == head) {
-    std::shared_ptr<node> nhead(new node(val, std::weak_ptr<node>(), head, this));
+    std::shared_ptr<node> nhead(
+        new node(val, std::weak_ptr<node>(), head, this));
     head->prev = nhead;
     head = nhead;
     size++;
@@ -379,18 +380,22 @@ void debugList<T>::splice(iterator_imp_const const &before, debugList<T> &list2,
   assert(check == it2);
   if (it1 == it2)
     return;
+
+  it2--;
+
   std::shared_ptr<node> left = it1.val.lock();
   std::shared_ptr<node> right = it2.val.lock();
 
   std::shared_ptr<node> end = before.val.lock();
-
+  if (list2.head == left) {
+      list2.head = right ->next;
+  }
   if (end == head) {
     right->next = end;
     end->prev = right;
     head = left;
   } else {
     std::shared_ptr<node> begin = end->prev.lock();
-
     left->prev = begin;
     right->next = end;
     end->prev = right;
