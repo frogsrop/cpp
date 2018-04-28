@@ -1,3 +1,4 @@
 /home/yanis/cpp/DebugList-build/CMakeFiles/rebuild_cache.dir
+/home/yanis/cpp/DebugList-build/CMakeFiles/debug_list_testing.dir
 /home/yanis/cpp/DebugList-build/CMakeFiles/edit_cache.dir
 /home/yanis/cpp/DebugList-build/CMakeFiles/main.dir

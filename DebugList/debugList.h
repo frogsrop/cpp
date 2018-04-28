@@ -100,6 +100,7 @@ public:
       return !(x == y);
     }
 
+
   private:
     friend class debugList;
 
@@ -145,6 +146,7 @@ public:
   void insert(iterator_imp_const const &it, T const &val);
 
   iterator_imp erase(iterator_imp_const const &it);
+  iterator_imp erase(iterator_imp_const const &it1, iterator_imp_const const &it2);
 
   void splice(iterator_imp_const const &before, debugList<T> &list2,
               iterator_imp_const it1, iterator_imp_const it2);
@@ -358,6 +360,17 @@ debugList<T>::erase(const iterator_imp_const &it) {
 }
 
 template <typename T>
+typename debugList<T>::iterator_imp
+debugList<T>::erase(const iterator_imp_const &it1,const iterator_imp_const &it2) {
+  assert(it1.val.lock()->my == this);
+  assert(it2.val.lock()->my == this);
+  debugList<T> l2;
+  l2.splice(l2.begin(),*this,it1,it2);
+  iterator_imp ret(it2.val.lock());
+  return ret;
+}
+
+template <typename T>
 void debugList<T>::splice(iterator_imp_const const &before, debugList<T> &list2,
                           iterator_imp_const it1, iterator_imp_const it2) {
   assert(it1.val.lock()->my == &list2);
@@ -367,12 +380,14 @@ void debugList<T>::splice(iterator_imp_const const &before, debugList<T> &list2,
   assert(!before.val.expired());
   assert(!it1.val.expired());
   assert(!it2.val.expired());
-
-  assert(this != &list2);
+  // по стандарту если list2 == this, то undefined behaviour
+  //assert(this != &list2);
 
   iterator_imp_const check = it1;
   int amount = 0;
   while (check.val.lock() != list2.tail && check != it2) {
+    if(before.val.lock()->my == check.val.lock()->my)
+      assert(check!=before);
     check++;
     amount++;
   }
@@ -388,7 +403,13 @@ void debugList<T>::splice(iterator_imp_const const &before, debugList<T> &list2,
 
   std::shared_ptr<node> end = before.val.lock();
   if (list2.head == left) {
-      list2.head = right ->next;
+    list2.head = right->next;
+    right->next->prev = list2.head;
+  }
+  else
+  {
+    left->prev.lock()->next = right->next;
+    right->next->prev = left->prev;
   }
   if (end == head) {
     right->next = end;
@@ -401,13 +422,9 @@ void debugList<T>::splice(iterator_imp_const const &before, debugList<T> &list2,
     end->prev = right;
     begin->next = left;
   }
-  /*
-  it1.val.lock() -> prev = obf;
-  it2.val.lock() -> next = before.val.lock();
-  before.val.lock() -> prev = it2.val.lock();
-*/
-  size += amount;
-  list2.size -= amount;
+
+  size += amount + 1;
+  list2.size -= amount + 1;
   while (it1 != it2) {
     it1.val.lock()->my = this;
     it1++;

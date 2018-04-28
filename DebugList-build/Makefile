@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named debug_list_testing
+
+# Build rule for target.
+debug_list_testing: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 debug_list_testing
+.PHONY : debug_list_testing
+
+# fast build rule for target.
+debug_list_testing/fast:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/build
+.PHONY : debug_list_testing/fast
+
+#=============================================================================
 # Target rules for targets named main
 
 # Build rule for target.
@@ -122,6 +135,87 @@ main: cmake_check_build_system
 main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
+
+debug-list-test.o: debug-list-test.cpp.o
+
+.PHONY : debug-list-test.o
+
+# target to build an object file
+debug-list-test.cpp.o:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/debug-list-test.cpp.o
+.PHONY : debug-list-test.cpp.o
+
+debug-list-test.i: debug-list-test.cpp.i
+
+.PHONY : debug-list-test.i
+
+# target to preprocess a source file
+debug-list-test.cpp.i:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/debug-list-test.cpp.i
+.PHONY : debug-list-test.cpp.i
+
+debug-list-test.s: debug-list-test.cpp.s
+
+.PHONY : debug-list-test.s
+
+# target to generate assembly for a file
+debug-list-test.cpp.s:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/debug-list-test.cpp.s
+.PHONY : debug-list-test.cpp.s
+
+gtest/gtest-all.o: gtest/gtest-all.cc.o
+
+.PHONY : gtest/gtest-all.o
+
+# target to build an object file
+gtest/gtest-all.cc.o:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/gtest/gtest-all.cc.o
+.PHONY : gtest/gtest-all.cc.o
+
+gtest/gtest-all.i: gtest/gtest-all.cc.i
+
+.PHONY : gtest/gtest-all.i
+
+# target to preprocess a source file
+gtest/gtest-all.cc.i:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/gtest/gtest-all.cc.i
+.PHONY : gtest/gtest-all.cc.i
+
+gtest/gtest-all.s: gtest/gtest-all.cc.s
+
+.PHONY : gtest/gtest-all.s
+
+# target to generate assembly for a file
+gtest/gtest-all.cc.s:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/gtest/gtest-all.cc.s
+.PHONY : gtest/gtest-all.cc.s
+
+gtest/gtest_main.o: gtest/gtest_main.cc.o
+
+.PHONY : gtest/gtest_main.o
+
+# target to build an object file
+gtest/gtest_main.cc.o:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/gtest/gtest_main.cc.o
+.PHONY : gtest/gtest_main.cc.o
+
+gtest/gtest_main.i: gtest/gtest_main.cc.i
+
+.PHONY : gtest/gtest_main.i
+
+# target to preprocess a source file
+gtest/gtest_main.cc.i:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/gtest/gtest_main.cc.i
+.PHONY : gtest/gtest_main.cc.i
+
+gtest/gtest_main.s: gtest/gtest_main.cc.s
+
+.PHONY : gtest/gtest_main.s
+
+# target to generate assembly for a file
+gtest/gtest_main.cc.s:
+	$(MAKE) -f CMakeFiles/debug_list_testing.dir/build.make CMakeFiles/debug_list_testing.dir/gtest/gtest_main.cc.s
+.PHONY : gtest/gtest_main.cc.s
 
 main.o: main.cpp.o
 
@@ -157,8 +251,18 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... debug_list_testing"
 	@echo "... edit_cache"
 	@echo "... main"
+	@echo "... debug-list-test.o"
+	@echo "... debug-list-test.i"
+	@echo "... debug-list-test.s"
+	@echo "... gtest/gtest-all.o"
+	@echo "... gtest/gtest-all.i"
+	@echo "... gtest/gtest-all.s"
+	@echo "... gtest/gtest_main.o"
+	@echo "... gtest/gtest_main.i"
+	@echo "... gtest/gtest_main.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

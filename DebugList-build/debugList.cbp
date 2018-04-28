@@ -27,6 +27,54 @@
             <DistClean command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
+      <Target title="debug_list_testing">
+         <Option output="/home/yanis/cpp/DebugList-build/debug_list_testing" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/yanis/cpp/DebugList-build" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/yanis/cpp/DebugList" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 debug_list_testing" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="debug_list_testing/fast">
+         <Option output="/home/yanis/cpp/DebugList-build/debug_list_testing" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/yanis/cpp/DebugList-build" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/yanis/cpp/DebugList" />
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/c++/5" />
+            <Add directory="/usr/include/c++/5/backward" />
+            <Add directory="/usr/include/x86_64-linux-gnu" />
+            <Add directory="/usr/include/x86_64-linux-gnu/c++/5" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include" />
+            <Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 debug_list_testing/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/yanis/cpp/DebugList-build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
       <Target title="edit_cache">
          <Option working_dir="/home/yanis/cpp/DebugList-build" />
          <Option type="4" />
@@ -86,8 +134,21 @@
          </MakeCommands>
       </Target>
       </Build>
+      <Unit filename="/home/yanis/cpp/DebugList/debug-list-test.cpp">
+         <Option target="debug_list_testing"/>
+      </Unit>
       <Unit filename="/home/yanis/cpp/DebugList/debugList.h">
+         <Option target="debug_list_testing"/>
          <Option target="main"/>
+      </Unit>
+      <Unit filename="/home/yanis/cpp/DebugList/gtest/gtest-all.cc">
+         <Option target="debug_list_testing"/>
+      </Unit>
+      <Unit filename="/home/yanis/cpp/DebugList/gtest/gtest.h">
+         <Option target="debug_list_testing"/>
+      </Unit>
+      <Unit filename="/home/yanis/cpp/DebugList/gtest/gtest_main.cc">
+         <Option target="debug_list_testing"/>
       </Unit>
       <Unit filename="/home/yanis/cpp/DebugList/main.cpp">
          <Option target="main"/>
