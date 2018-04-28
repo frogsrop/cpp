@@ -7,7 +7,6 @@ template class debugList<double>;
 
 debugList<int> x;
 
-debugList<int> y;
 
 int main() {
   x.push_back(1);
@@ -18,6 +17,11 @@ int main() {
 
   x.push_back(4);
 
-  x.splice(next(x.begin(), 2), x, next(x.begin()), prev(x.end()));
-  return 0;
+  const debugList<int> y(x);
+
+  y.back() = 10;
+
+  for (auto &t : y) {
+    cout << t << ' ';
+  }
 }

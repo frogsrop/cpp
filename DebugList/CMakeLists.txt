@@ -15,7 +15,6 @@ add_executable(debug_list_testing debug-list-test.cpp
                gtest/gtest.h
                gtest/gtest_main.cc
                )
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11 -pedantic -fsanitize=address,undefineds ")
 
 
 if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
