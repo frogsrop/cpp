@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++11 -O3 -DNDEBUG   CMakeFiles/Main.dir/Main.cpp.o CMakeFiles/Main.dir/Haffman.cpp.o CMakeFiles/Main.dir/byte.cpp.o CMakeFiles/Main.dir/node.cpp.o  -o Main -rdynamic 

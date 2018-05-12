@@ -19,8 +19,8 @@ int main() {
 
   const debugList<int> y(x);
 
-  y.back() = 10;
-
+  //y.back() = 10;
+  int* qwe = new int();
   for (auto &t : y) {
     cout << t << ' ';
   }
